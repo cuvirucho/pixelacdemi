@@ -15,7 +15,7 @@ export const images = {
   /** Hero: persona trabajando con laptop. Vertical, ~4:5. Fondo recortado. */
   heroPerson: "src/assets/images/Diseño sin título (7).png",
   /** CTA: estudiante señalando. Vertical, ~3:4. Fondo recortado. */
-  ctaStudent: "src/assets/images/Diseño sin título (11).png",
+  ctaStudent: "src/assets/images/Diseño sin título (13).png",
   /** Sobre nosotros: equipo o aula. Horizontal, ~4:3. */
   aboutTeam: null,
 };

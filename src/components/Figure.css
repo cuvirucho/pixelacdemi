@@ -18,8 +18,16 @@
   place-items: center;
   border-radius: var(--radius-lg);
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(124, 44, 255, 0.28), transparent 62%),
-    linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.01));
+    radial-gradient(
+      120% 90% at 50% 0%,
+      rgba(124, 44, 255, 0.28),
+      transparent 62%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0.01)
+    );
   border: 1px solid var(--border-soft);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -27,10 +35,13 @@
 
 /* Retícula de puntos sutil por detrás de la ilustración */
 .figure--placeholder::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.16) 1px,
+    transparent 1px
+  );
   background-size: 18px 18px;
   opacity: 0.45;
   pointer-events: none;
@@ -48,7 +59,11 @@
 /* Variante sobre el gradiente morado del CTA: más contraste */
 .figure--student.figure--placeholder {
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.22), transparent 60%),
+    radial-gradient(
+      120% 90% at 50% 0%,
+      rgba(255, 255, 255, 0.22),
+      transparent 60%
+    ),
     linear-gradient(160deg, rgba(5, 5, 9, 0.32), rgba(5, 5, 9, 0.12));
   border-color: rgba(255, 255, 255, 0.28);
 }
