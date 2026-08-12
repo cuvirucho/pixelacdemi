@@ -1,0 +1,199 @@
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--t-base),
+    border-color var(--t-base),
+    backdrop-filter var(--t-base);
+}
+
+/* Al despegarse del top: vidrio oscuro + borde inferior sutil */
+.navbar--scrolled {
+  background-color: rgba(5, 5, 9, 0.72);
+  border-bottom-color: var(--border-dark);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.navbar__inner {
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* --------------------------------- Desktop --------------------------------- */
+
+.navbar__list {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 0.3rem + 1.5vw, 2.1rem);
+}
+
+.navbar__link {
+  position: relative;
+  display: inline-block;
+  padding-block: 0.4rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-on-dark);
+  transition: color var(--t-fast);
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background-image: var(--gradient);
+  transform: translateX(-50%);
+  transition: width var(--t-base);
+}
+
+.navbar__link:hover {
+  color: var(--white);
+}
+
+.navbar__link.is-active {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.navbar__link.is-active::after {
+  width: 60%;
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navbar__toggle {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-dark);
+  background-color: rgba(255, 255, 255, 0.04);
+  color: var(--white);
+  transition:
+    background-color var(--t-fast),
+    border-color var(--t-fast);
+}
+
+.navbar__toggle:hover {
+  background-color: rgba(124, 44, 255, 0.18);
+  border-color: var(--border-soft);
+}
+
+/* ---------------------------------- Móvil ---------------------------------- */
+
+.navbar__mobile {
+  position: absolute;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: none;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem var(--gutter) 2rem;
+  /* Opaco a propósito: el panel cubre el hero y no debe transparentarlo.
+     Un fondo translúcido dependería de backdrop-filter, que no siempre
+     se aplica (p. ej. sin aceleración por GPU) y dejaría el texto sucio. */
+  background-color: var(--dark-2);
+  border-bottom: 1px solid var(--border-dark);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+  animation: fadeUp 260ms var(--ease) both;
+}
+
+.navbar__mobile.is-open {
+  display: flex;
+}
+
+.navbar__mobile-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar__mobile-list li {
+  border-bottom: 1px solid var(--border-dark);
+  animation: fadeUp 340ms var(--ease) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.navbar__mobile-list li:last-child {
+  border-bottom: 0;
+}
+
+.navbar__mobile-link {
+  display: block;
+  padding: 0.95rem 0.25rem;
+  font-family: var(--font-head);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+  transition:
+    color var(--t-fast),
+    padding-left var(--t-fast);
+}
+
+.navbar__mobile-link:hover,
+.navbar__mobile-link.is-active {
+  color: var(--white);
+  padding-left: 0.75rem;
+}
+
+.navbar__mobile-link.is-active {
+  color: var(--primary-light);
+}
+
+.navbar__mobile-cta {
+  width: 100%;
+}
+
+.navbar__backdrop {
+  position: fixed;
+  inset: var(--nav-h) 0 0 0;
+  z-index: 1;
+  background-color: rgba(5, 5, 9, 0.6);
+  animation: fadeUp 200ms var(--ease) both;
+}
+
+/* -------------------------------- Breakpoints -------------------------------- */
+
+@media (max-width: 1080px) {
+  .navbar__list {
+    gap: 1.1rem;
+  }
+
+  .navbar__link {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar__nav,
+  .navbar__cta {
+    display: none;
+  }
+
+  .navbar__toggle {
+    display: grid;
+  }
+
+  /* El panel abierto ya lleva su propio fondo: la barra no debe ser transparente */
+  .navbar:has(.navbar__mobile.is-open) {
+    background-color: var(--dark-2);
+    border-bottom-color: transparent;
+  }
+}

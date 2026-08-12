@@ -1,0 +1,53 @@
+.logo {
+  --logo-size: 1.5rem;
+
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15em;
+  line-height: 1;
+  color: var(--white);
+  transition: opacity var(--t-fast);
+}
+
+.logo:hover {
+  opacity: 0.85;
+}
+
+.logo--sm {
+  --logo-size: 1.25rem;
+}
+
+.logo__word {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-head);
+  font-size: var(--logo-size);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+/* La "X" ocupa el mismo espacio óptico que una letra */
+.logo__x {
+  width: 0.78em;
+  height: 0.78em;
+  margin-inline: 0.1em 0.16em;
+  flex-shrink: 0;
+}
+
+.logo__sub {
+  font-family: var(--font-head);
+  font-size: calc(var(--logo-size) * 0.365);
+  font-weight: 600;
+  letter-spacing: 0.44em;
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+  /* Compensa el letter-spacing final para que quede alineado a la izquierda */
+  text-indent: 0.05em;
+}
+
+@media (max-width: 480px) {
+  .logo {
+    --logo-size: 1.3rem;
+  }
+}

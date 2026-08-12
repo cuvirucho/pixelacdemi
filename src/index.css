@@ -1,0 +1,330 @@
+/* ==========================================================================
+   Pixel Academy — sistema de diseño global
+   Solo tokens, reset, tipografía base, utilidades y keyframes compartidos.
+   Todo lo específico de una sección vive en el CSS de su componente.
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --dark: #050509;
+  --dark-2: #0b0b12;
+  --dark-3: #12121c;
+  --white: #ffffff;
+  --white-2: #f7f7fa;
+
+  --primary: #7c2cff;
+  --primary-light: #9b4dff;
+  --primary-dark: #4b12a8;
+
+  --border-soft: rgba(124, 44, 255, 0.25);
+  --border-light: rgba(124, 44, 255, 0.12);
+  --border-dark: rgba(255, 255, 255, 0.08);
+
+  /* Texto */
+  --text-dark: #0f0f18;
+  --text-body: #55556b;
+  --text-muted: #8a8aa0;
+  --text-on-dark: rgba(255, 255, 255, 0.72);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.52);
+
+  /* Gradientes */
+  --gradient: linear-gradient(135deg, #6d20ff, #a83dff);
+  --gradient-soft: linear-gradient(135deg, rgba(109, 32, 255, 0.12), rgba(168, 61, 255, 0.06));
+
+  /* Radios */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: 40px;
+  --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-card: 0 2px 8px rgba(15, 15, 24, 0.04), 0 12px 32px rgba(15, 15, 24, 0.06);
+  --shadow-float: 0 18px 50px rgba(15, 15, 24, 0.12);
+  --shadow-hover: 0 20px 44px rgba(124, 44, 255, 0.18);
+  --shadow-glow: 0 10px 30px rgba(124, 44, 255, 0.38);
+
+  /* Tipografía */
+  --font-head: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Escala fluida: cubre 320px → 1440px sin duplicar media queries */
+  --fs-h1: clamp(2.25rem, 1.4rem + 4.2vw, 4.5rem);
+  --fs-h2: clamp(1.875rem, 1.35rem + 2.2vw, 3rem);
+  --fs-h3: clamp(1.125rem, 1rem + 0.55vw, 1.5rem);
+  --fs-lead: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  --fs-body: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+  --fs-small: 0.875rem;
+  --fs-eyebrow: 0.8125rem;
+
+  /* Layout */
+  --container: 1200px;
+  --gutter: clamp(1.25rem, 0.9rem + 1.6vw, 2.5rem);
+  --nav-h: 84px;
+  --section-y: clamp(4.5rem, 3rem + 6vw, 8rem);
+
+  /* Movimiento */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 180ms var(--ease);
+  --t-base: 260ms var(--ease);
+}
+
+/* ------------------------------ Reset ------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  color: var(--text-body);
+  background: var(--white);
+  /* Evita que la decoración posicionada del hero genere scroll lateral */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-head);
+  color: var(--text-dark);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+  font-weight: 800;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* La navbar fija no debe tapar el destino de los anclajes */
+section[id],
+footer[id] {
+  scroll-margin-top: calc(var(--nav-h) + 16px);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgba(124, 44, 255, 0.25);
+  color: var(--text-dark);
+}
+
+/* ----------------------------- Utilidades ----------------------------- */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+  position: relative;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.text-gradient {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Enlace saltar-al-contenido para navegación por teclado */
+.skip-link {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, -120%);
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--white);
+  color: var(--text-dark);
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  box-shadow: var(--shadow-float);
+  transition: transform var(--t-fast);
+}
+
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+}
+
+/* Revelado al hacer scroll (activado por useScrollReveal) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 700ms var(--ease),
+    transform 700ms var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------------------------- Keyframes ---------------------------- */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes floatSoft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes spinSlow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Entrada escalonada del hero: los hijos declaran --delay */
+.animate-in {
+  opacity: 0;
+  animation: fadeUp 800ms var(--ease) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* --------------------- Preferencia de movimiento reducido --------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .animate-in {
+    opacity: 1;
+    transform: none;
+  }
+}

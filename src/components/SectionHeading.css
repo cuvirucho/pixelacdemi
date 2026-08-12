@@ -1,0 +1,49 @@
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 640px;
+}
+
+.section-heading--center {
+  align-items: center;
+  text-align: center;
+  margin-inline: auto;
+}
+
+.section-heading--left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.section-heading__subtitle {
+  font-size: var(--fs-lead);
+  color: var(--text-body);
+  margin-top: 0.25rem;
+}
+
+/* Sobre fondo oscuro */
+.section-heading--dark .section-heading__title {
+  color: var(--white);
+}
+
+.section-heading--dark .section-heading__subtitle {
+  color: var(--text-on-dark);
+}
+
+/* Palabra destacada con trazo morado bajo el texto */
+.section-heading__mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+.section-heading__mark::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.06em;
+  height: 0.11em;
+  border-radius: var(--radius-pill);
+  background-image: var(--gradient);
+}
