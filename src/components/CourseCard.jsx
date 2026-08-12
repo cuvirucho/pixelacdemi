@@ -1,11 +1,15 @@
 import { Clock, ArrowRight } from 'lucide-react'
-import { ENROLL_HREF } from '../data/navigation'
 import './CourseCard.css'
 
 /**
  * Tarjeta de curso. Recibe un elemento del catálogo de `src/data/courses.js`.
+ *
+ * El título y la descripción se recortan por CSS para que las 4 tarjetas midan
+ * lo mismo; el texto completo se lee en el modal que abre "Ver curso".
+ *
+ * @param {(course: object) => void} onOpen abre la ficha ampliada del curso
  */
-function CourseCard({ course, index = 0 }) {
+function CourseCard({ course, index = 0, onOpen }) {
   const { title, description, duration, level, icon: Icon } = course
 
   return (
@@ -34,12 +38,12 @@ function CourseCard({ course, index = 0 }) {
         </span>
       </footer>
 
-      <a className="course-card__link" href={ENROLL_HREF}>
+      <button type="button" className="course-card__link" onClick={() => onOpen(course)}>
         {/* El texto accesible nombra el curso: "Ver curso" a secas se repetiría 4 veces */}
         <span aria-hidden="true">Ver curso</span>
         <span className="course-card__sr">Ver el curso {title}</span>
         <ArrowRight size={16} aria-hidden="true" />
-      </a>
+      </button>
     </article>
   )
 }

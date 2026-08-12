@@ -2,12 +2,17 @@ import { useState } from 'react'
 import { CircleCheck, Send, ShieldCheck, Clock, Award } from 'lucide-react'
 import SectionHeading from './SectionHeading'
 import Button from './Button'
-import { courses } from '../data/courses'
+import { courses, COURSE_PRICE } from '../data/courses'
 import './Enroll.css'
 
 const TRUST_SIGNALS = [
   { id: 'cupos', text: 'Cupos limitados por grupo para asegurar acompañamiento real', icon: Clock },
-  { id: 'pago', text: 'Pago único de $199, sin mensualidades ni cargos ocultos', icon: ShieldCheck },
+  {
+    id: 'pago',
+    // El precio sale del catálogo para que no se desincronice con el del modal
+    text: `Pago único de ${COURSE_PRICE}, sin mensualidades ni cargos ocultos`,
+    icon: ShieldCheck,
+  },
   { id: 'cert', text: 'Certificado avalado al completar tu proyecto final', icon: Award },
 ]
 
@@ -51,10 +56,29 @@ function Field({ id, label, error, children }) {
   )
 }
 
-function Enroll() {
+/**
+ * @param {{ id: string, request: number }} enrollCourse curso que el modal pide
+ *   dejar preseleccionado. `request` se incrementa en cada petición, de modo que
+ *   volver a pedir el mismo curso también reaplica la selección.
+ */
+function Enroll({ enrollCourse = { id: '', request: 0 } }) {
   const [values, setValues] = useState(EMPTY_FORM)
   const [errors, setErrors] = useState({})
   const [isSent, setIsSent] = useState(false)
+  const [appliedRequest, setAppliedRequest] = useState(enrollCourse.request)
+
+  // Ajuste de estado durante el render, no en un efecto: es el patrón que
+  // recomienda React para sincronizarse con un prop sin renders en cascada.
+  if (enrollCourse.request !== appliedRequest) {
+    setAppliedRequest(enrollCourse.request)
+
+    if (enrollCourse.id) {
+      setValues((prev) => ({ ...prev, course: enrollCourse.id }))
+      setErrors((prev) => (prev.course ? { ...prev, course: undefined } : prev))
+      // Si ya se había enviado una solicitud, vuelve a mostrar el formulario
+      setIsSent(false)
+    }
+  }
 
   const handleChange = (event) => {
     const { name, type, value, checked } = event.target

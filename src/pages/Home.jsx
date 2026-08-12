@@ -1,14 +1,15 @@
-import Navbar from '../components/Navbar'
-import Hero from '../components/Hero'
-import Stats from '../components/Stats'
-import Courses from '../components/Courses'
-import About from '../components/About'
-import Benefits from '../components/Benefits'
-import CTA from '../components/CTA'
-import Testimonials from '../components/Testimonials'
-import Enroll from '../components/Enroll'
-import Footer from '../components/Footer'
-import { useScrollReveal } from '../hooks/useScrollReveal'
+import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import Stats from "../components/Stats";
+import Courses from "../components/Courses";
+import About from "../components/About";
+import Benefits from "../components/Benefits";
+import CTA from "../components/CTA";
+
+import Enroll from "../components/Enroll";
+import Footer from "../components/Footer";
+import { useState } from "react";
+import { useScrollReveal } from "../hooks/useScrollReveal";
 
 /**
  * Orquesta el orden de las secciones. El orden del DOM coincide con el del
@@ -18,7 +19,15 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
  * de la página, en lugar de crear uno por sección.
  */
 function Home() {
-  const revealRoot = useScrollReveal()
+  const revealRoot = useScrollReveal();
+
+  // Curso que el modal pide preseleccionar en el formulario. El contador
+  // `request` hace que reabrir el mismo curso vuelva a aplicar la selección
+  // aunque el usuario hubiera cambiado el <select> a mano.
+  const [enrollCourse, setEnrollCourse] = useState({ id: "", request: 0 });
+
+  const requestEnroll = (id) =>
+    setEnrollCourse((prev) => ({ id, request: prev.request + 1 }));
 
   return (
     <>
@@ -31,17 +40,17 @@ function Home() {
       <main id="contenido" ref={revealRoot}>
         <Hero />
         <Stats />
-        <Courses />
+        <Courses onEnroll={requestEnroll} />
         <About />
         <Benefits />
         <CTA />
-        <Testimonials />
-        <Enroll />
+
+        <Enroll enrollCourse={enrollCourse} />
       </main>
 
       <Footer />
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

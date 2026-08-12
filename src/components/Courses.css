@@ -7,6 +7,9 @@
 .courses__grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Filas de igual altura: sin esto, en la rejilla de 2 columnas cada fila se
+     mide por su cuenta y las tarjetas de abajo quedan más bajas */
+  grid-auto-rows: 1fr;
   gap: 1.5rem;
   margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
 }

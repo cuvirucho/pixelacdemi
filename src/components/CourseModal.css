@@ -1,0 +1,452 @@
+/* Ficha ampliada del curso. Se monta en el <body> (portal), por encima de la
+   navbar (z-index 100) y por debajo del enlace de salto (200). */
+
+.course-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 0.6rem + 1.6vw, 2.5rem);
+  background-color: rgba(5, 5, 9, 0.62);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: courseModalFade 220ms var(--ease);
+}
+
+.course-modal__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(980px, 100%);
+  max-height: min(88vh, 920px);
+  /* Recorta el degradado de la cabecera contra las esquinas redondeadas */
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background-color: var(--white);
+  box-shadow: var(--shadow-float);
+  animation: courseModalIn 320ms var(--ease) both;
+}
+
+/* -------------------------------- Cabecera -------------------------------- */
+
+.course-modal__head {
+  position: relative;
+  flex-shrink: 0;
+  padding: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  padding-right: clamp(3.5rem, 3rem + 2vw, 4.5rem);
+  background-image: var(--gradient);
+  color: var(--white);
+}
+
+.course-modal__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(255, 255, 255, 0.16);
+  color: var(--white);
+  transition:
+    background-color var(--t-fast),
+    transform var(--t-base);
+}
+
+.course-modal__close:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.course-modal__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1.1rem;
+  border-radius: var(--radius-sm);
+  background-color: rgba(255, 255, 255, 0.18);
+  color: var(--white);
+}
+
+.course-modal__labels {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.45rem;
+}
+
+.course-modal__tag {
+  font-family: var(--font-head);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.course-modal__level {
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  background-color: rgba(255, 255, 255, 0.2);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.course-modal__title {
+  font-size: clamp(1.375rem, 1.15rem + 1vw, 1.875rem);
+  line-height: 1.2;
+  color: var(--white);
+}
+
+.course-modal__tagline {
+  margin-top: 0.6rem;
+  max-width: 62ch;
+  font-size: var(--fs-lead);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.course-modal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.course-modal__meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.course-modal__meta svg {
+  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* --------------------------------- Cuerpo --------------------------------- */
+
+.course-modal__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  padding: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem);
+  overflow-y: auto;
+  /* Al llegar al final no arrastra el scroll de la página de fondo */
+  overscroll-behavior: contain;
+}
+
+.course-modal__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.course-modal__summary {
+  font-size: var(--fs-body);
+  color: var(--text-body);
+}
+
+.course-modal__block-title {
+  margin-bottom: 0.9rem;
+  font-size: 1.0625rem;
+}
+
+/* Lo que aprenderás */
+
+.course-modal__outcomes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.course-modal__outcomes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.9375rem;
+  color: var(--text-body);
+}
+
+.course-modal__outcomes svg {
+  flex-shrink: 0;
+  margin-top: 0.28rem;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(124, 44, 255, 0.1);
+  color: var(--primary);
+}
+
+/* Programa semana a semana */
+
+.course-modal__modules {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.course-modal__module {
+  display: flex;
+  gap: 0.9rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  background-color: var(--white-2);
+  transition:
+    border-color var(--t-base),
+    background-color var(--t-base);
+}
+
+.course-modal__module:hover {
+  border-color: var(--border-soft);
+  background-color: var(--white);
+}
+
+.course-modal__module-step {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  background-image: var(--gradient);
+  font-family: var(--font-head);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.course-modal__module-body {
+  min-width: 0;
+}
+
+.course-modal__module-week {
+  font-family: var(--font-head);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.course-modal__module-title {
+  margin-top: 0.15rem;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.course-modal__module-text {
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  color: var(--text-body);
+}
+
+/* Proyecto final */
+
+.course-modal__project {
+  display: flex;
+  gap: 0.9rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-soft);
+  background-image: var(--gradient-soft);
+}
+
+.course-modal__project-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background-color: var(--white);
+  color: var(--primary);
+  box-shadow: var(--shadow-card);
+}
+
+.course-modal__project-title {
+  font-size: 0.9375rem;
+}
+
+.course-modal__project-text {
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-body);
+}
+
+/* -------------------------------- Columna lateral ------------------------- */
+
+.course-modal__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.course-modal__price-card {
+  /* Acompaña al scroll para que el CTA nunca quede fuera de pantalla */
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.35rem 1.25rem;
+  border-radius: var(--radius-md);
+  background-color: var(--dark-2);
+  color: var(--white);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.course-modal__price-label {
+  font-family: var(--font-head);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+}
+
+.course-modal__price {
+  font-family: var(--font-head);
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.course-modal__price-note {
+  font-size: 0.8125rem;
+  color: var(--text-on-dark);
+}
+
+.course-modal__cta {
+  width: 100%;
+  margin-top: 1.1rem;
+}
+
+.course-modal__seats {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  font-size: 0.75rem;
+  color: var(--text-on-dark-muted);
+}
+
+.course-modal__box {
+  padding: 1.15rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  background-color: var(--white-2);
+}
+
+.course-modal__box-title {
+  margin-bottom: 0.8rem;
+  font-size: 0.875rem;
+  letter-spacing: 0;
+}
+
+.course-modal__includes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.course-modal__includes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.8125rem;
+  color: var(--text-body);
+}
+
+.course-modal__includes svg {
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+  color: var(--primary);
+}
+
+.course-modal__includes strong {
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.course-modal__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.course-modal__tools li {
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-pill);
+  background-color: rgba(124, 44, 255, 0.09);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.course-modal__audience {
+  font-size: 0.8125rem;
+  color: var(--text-body);
+}
+
+/* -------------------------------- Keyframes -------------------------------- */
+
+/* El CSS de los componentes no está aislado: los nombres van prefijados */
+@keyframes courseModalFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes courseModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* -------------------------------- Breakpoints -------------------------------- */
+
+@media (max-width: 900px) {
+  .course-modal__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Apilado no hay hueco lateral: pegarlo arriba taparía el contenido */
+  .course-modal__price-card {
+    position: static;
+  }
+}
+
+/* En móvil funciona como hoja inferior: ocupa el ancho y sube desde abajo */
+@media (max-width: 620px) {
+  .course-modal {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .course-modal__dialog {
+    width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+}

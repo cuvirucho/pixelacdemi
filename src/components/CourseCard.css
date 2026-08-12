@@ -65,13 +65,28 @@
   color: var(--primary);
 }
 
+/* Título y descripción reservan siempre el mismo número de líneas: así las 4
+   tarjetas comparten geometría interna y el texto largo no las descuadra.
+   Lo que se recorta aquí se lee completo en el modal del curso. */
 .course-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  min-height: calc(1.3em * 3);
   font-size: 1.0625rem;
   line-height: 1.3;
   text-wrap: balance;
 }
 
 .course-card__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: calc(1.65em * 2);
   flex-grow: 1;
   font-size: 0.9375rem;
   color: var(--text-body);
@@ -107,10 +122,14 @@
   white-space: nowrap;
 }
 
+/* Es un <button> que abre el modal, pero debe verse igual que el enlace que era:
+   el reset global ya le quita fondo y borde y le hereda la fuente */
 .course-card__link {
   display: inline-flex;
   align-items: center;
+  align-self: flex-start;
   gap: 0.4rem;
+  padding: 0;
   font-family: var(--font-head);
   font-size: 0.875rem;
   font-weight: 700;

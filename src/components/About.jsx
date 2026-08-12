@@ -1,9 +1,9 @@
-import { Sparkles } from 'lucide-react'
-import SectionHeading from './SectionHeading'
-import Figure from './Figure'
-import { pillars } from '../data/benefits'
-import { images } from '../data/images'
-import './About.css'
+import { Sparkles } from "lucide-react";
+import SectionHeading from "./SectionHeading";
+import Figure from "./Figure";
+import { pillars } from "../data/benefits";
+import { images } from "../data/images";
+import "./About.css";
 
 function About() {
   return (
@@ -35,7 +35,7 @@ function About() {
             align="left"
             eyebrow="Sobre nosotros"
             title="Una academia para aplicar, no solo para aprender"
-            subtitle="Nacimos en Cuenca con una idea simple: que nadie termine un curso con apuntes bonitos y sin saber por dónde empezar. Cada módulo se construye alrededor de un entregable real."
+            subtitle="Creamos un espacio para impulsar tu desarrollo personal, descubrir nuevas habilidades y convertir lo que aprendes en algo que realmente transforma tu vida."
             className="about__heading"
           />
 
@@ -44,7 +44,7 @@ function About() {
               <li
                 key={id}
                 className="about__pillar reveal"
-                style={{ '--reveal-delay': `${index * 100}ms` }}
+                style={{ "--reveal-delay": `${index * 100}ms` }}
               >
                 <span className="about__pillar-icon" aria-hidden="true">
                   <Icon size={20} strokeWidth={1.9} />
@@ -59,7 +59,7 @@ function About() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default About
+export default About;
