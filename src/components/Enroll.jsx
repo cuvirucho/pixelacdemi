@@ -1,42 +1,52 @@
-import { useState } from 'react'
-import { CircleCheck, Send, ShieldCheck, Clock, Award } from 'lucide-react'
-import SectionHeading from './SectionHeading'
-import Button from './Button'
-import { courses, COURSE_PRICE } from '../data/courses'
-import './Enroll.css'
+import { useState } from "react";
+import { CircleCheck, Send, ShieldCheck, Clock, Award } from "lucide-react";
+import SectionHeading from "./SectionHeading";
+import Button from "./Button";
+import { courses, COURSE_PRICE } from "../data/courses";
+import "./Enroll.css";
 
 const TRUST_SIGNALS = [
-  { id: 'cupos', text: 'Cupos limitados por grupo para asegurar acompañamiento real', icon: Clock },
   {
-    id: 'pago',
+    id: "cupos",
+    text: "Cupos limitados por grupo para asegurar acompañamiento real",
+    icon: Clock,
+  },
+  {
+    id: "pago",
     // El precio sale del catálogo para que no se desincronice con el del modal
     text: `Pago único de ${COURSE_PRICE}, sin mensualidades ni cargos ocultos`,
     icon: ShieldCheck,
   },
-  { id: 'cert', text: 'Certificado avalado al completar tu proyecto final', icon: Award },
-]
+  {
+    id: "cert",
+    text: "Certificado avalado al completar tu proyecto final",
+    icon: Award,
+  },
+];
 
-const EMPTY_FORM = { name: '', email: '', phone: '', course: '', terms: false }
+const EMPTY_FORM = { name: "", email: "", phone: "", terms: false };
 
 /** Devuelve un objeto de errores; vacío significa que el formulario es válido. */
 function validate(values) {
-  const errors = {}
+  const errors = {};
 
-  if (!values.name.trim()) errors.name = 'Escribe tu nombre completo.'
-  else if (values.name.trim().length < 3) errors.name = 'El nombre es demasiado corto.'
+  if (!values.name.trim()) errors.name = "Escribe tu nombre completo.";
+  else if (values.name.trim().length < 3)
+    errors.name = "El nombre es demasiado corto.";
 
-  if (!values.email.trim()) errors.email = 'Necesitamos tu correo para contactarte.'
+  if (!values.email.trim())
+    errors.email = "Necesitamos tu correo para contactarte.";
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email.trim()))
-    errors.email = 'Revisa el formato del correo.'
+    errors.email = "Revisa el formato del correo.";
 
-  if (!values.phone.trim()) errors.phone = 'Escribe un teléfono de contacto.'
-  else if (values.phone.replace(/\D/g, '').length < 7)
-    errors.phone = 'El teléfono no parece completo.'
+  if (!values.phone.trim()) errors.phone = "Escribe un teléfono de contacto.";
+  else if (values.phone.replace(/\D/g, "").length < 7)
+    errors.phone = "El teléfono no parece completo.";
 
-  if (!values.course) errors.course = 'Elige el curso que te interesa.'
-  if (!values.terms) errors.terms = 'Debes aceptar los términos para continuar.'
+  if (!values.terms)
+    errors.terms = "Debes aceptar los términos para continuar.";
 
-  return errors
+  return errors;
 }
 
 /** Campo de formulario con etiqueta y mensaje de error asociados. */
@@ -53,7 +63,7 @@ function Field({ id, label, error, children }) {
         </span>
       )}
     </p>
-  )
+  );
 }
 
 /**
@@ -61,41 +71,46 @@ function Field({ id, label, error, children }) {
  *   dejar preseleccionado. `request` se incrementa en cada petición, de modo que
  *   volver a pedir el mismo curso también reaplica la selección.
  */
-function Enroll({ enrollCourse = { id: '', request: 0 } }) {
-  const [values, setValues] = useState(EMPTY_FORM)
-  const [errors, setErrors] = useState({})
-  const [isSent, setIsSent] = useState(false)
-  const [appliedRequest, setAppliedRequest] = useState(enrollCourse.request)
+function Enroll({ enrollCourse = { id: "", request: 0 } }) {
+  const [values, setValues] = useState(EMPTY_FORM);
+  const [errors, setErrors] = useState({});
+  const [isSent, setIsSent] = useState(false);
+  const [appliedRequest, setAppliedRequest] = useState(enrollCourse.request);
 
   // Ajuste de estado durante el render, no en un efecto: es el patrón que
   // recomienda React para sincronizarse con un prop sin renders en cascada.
   if (enrollCourse.request !== appliedRequest) {
-    setAppliedRequest(enrollCourse.request)
+    setAppliedRequest(enrollCourse.request);
 
     if (enrollCourse.id) {
-      setValues((prev) => ({ ...prev, course: enrollCourse.id }))
-      setErrors((prev) => (prev.course ? { ...prev, course: undefined } : prev))
+      setValues((prev) => ({ ...prev, course: enrollCourse.id }));
+      setErrors((prev) =>
+        prev.course ? { ...prev, course: undefined } : prev,
+      );
       // Si ya se había enviado una solicitud, vuelve a mostrar el formulario
-      setIsSent(false)
+      setIsSent(false);
     }
   }
 
   const handleChange = (event) => {
-    const { name, type, value, checked } = event.target
-    setValues((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }))
+    const { name, type, value, checked } = event.target;
+    setValues((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
     // Limpia el error del campo en cuanto el usuario lo corrige
-    setErrors((prev) => (prev[name] ? { ...prev, [name]: undefined } : prev))
-  }
+    setErrors((prev) => (prev[name] ? { ...prev, [name]: undefined } : prev));
+  };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    const nextErrors = validate(values)
-    setErrors(nextErrors)
+    event.preventDefault();
+    const nextErrors = validate(values);
+    setErrors(nextErrors);
 
-    const firstError = Object.keys(nextErrors)[0]
+    const firstError = Object.keys(nextErrors)[0];
     if (firstError) {
-      document.getElementById(firstError)?.focus()
-      return
+      document.getElementById(firstError)?.focus();
+      return;
     }
 
     // ─── Punto de conexión con el backend ────────────────────────────────
@@ -107,23 +122,23 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
     //   })
     // Sin backend conectado, se muestra directamente la confirmación.
     // ─────────────────────────────────────────────────────────────────────
-    setIsSent(true)
-  }
+    setIsSent(true);
+  };
 
   const resetForm = () => {
-    setValues(EMPTY_FORM)
-    setErrors({})
-    setIsSent(false)
-  }
+    setValues(EMPTY_FORM);
+    setErrors({});
+    setIsSent(false);
+  };
 
   /** Props comunes de accesibilidad para cada control. */
   const fieldProps = (name) => ({
     id: name,
     name,
     onChange: handleChange,
-    'aria-invalid': errors[name] ? 'true' : undefined,
-    'aria-describedby': errors[name] ? `${name}-error` : undefined,
-  })
+    "aria-invalid": errors[name] ? "true" : undefined,
+    "aria-describedby": errors[name] ? `${name}-error` : undefined,
+  });
 
   return (
     <section id="inscripcion" className="enroll section">
@@ -159,10 +174,12 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
               <span className="enroll__success-icon" aria-hidden="true">
                 <CircleCheck size={38} strokeWidth={1.7} />
               </span>
-              <h3 className="enroll__success-title">¡Gracias, {values.name.split(' ')[0]}!</h3>
+              <h3 className="enroll__success-title">
+                ¡Gracias, {values.name.split(" ")[0]}!
+              </h3>
               <p className="enroll__success-text">
-                Recibimos tu solicitud. Un asesor de Pixel Academy te escribirá a{' '}
-                <strong>{values.email}</strong> en menos de 24 horas.
+                Recibimos tu solicitud. Un asesor de Pixel Academy te escribirá
+                a <strong>{values.email}</strong> en menos de 24 horas.
               </p>
               <Button variant="outline" onClick={resetForm}>
                 Enviar otra solicitud
@@ -179,7 +196,7 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
                   autoComplete="name"
                   placeholder="Ana Pérez"
                   value={values.name}
-                  {...fieldProps('name')}
+                  {...fieldProps("name")}
                 />
               </Field>
 
@@ -190,31 +207,23 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
                   autoComplete="email"
                   placeholder="ana@correo.com"
                   value={values.email}
-                  {...fieldProps('email')}
+                  {...fieldProps("email")}
                 />
               </Field>
 
-              <Field id="phone" label="Teléfono / WhatsApp" error={errors.phone}>
+              <Field
+                id="phone"
+                label="Teléfono / WhatsApp"
+                error={errors.phone}
+              >
                 <input
                   className="field__control"
                   type="tel"
                   autoComplete="tel"
                   placeholder="098 123 4567"
                   value={values.phone}
-                  {...fieldProps('phone')}
+                  {...fieldProps("phone")}
                 />
-              </Field>
-
-              <Field id="course" label="Curso de interés" error={errors.course}>
-                <select className="field__control" value={values.course} {...fieldProps('course')}>
-                  <option value="">Selecciona un curso</option>
-                  {courses.map((course) => (
-                    <option key={course.id} value={course.id}>
-                      {course.title}
-                    </option>
-                  ))}
-                  <option value="indeciso">Aún no lo decido</option>
-                </select>
               </Field>
 
               <p className="field field--check">
@@ -222,10 +231,11 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
                   <input
                     type="checkbox"
                     checked={values.terms}
-                    {...fieldProps('terms')}
+                    {...fieldProps("terms")}
                   />
                   <span>
-                    Acepto los términos y la política de privacidad de Pixel Academy.
+                    Acepto los términos y la política de privacidad de Pixel
+                    Academy.
                   </span>
                 </label>
                 {errors.terms && (
@@ -235,7 +245,12 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
                 )}
               </p>
 
-              <Button type="submit" size="lg" icon={Send} className="enroll__submit">
+              <Button
+                type="submit"
+                size="lg"
+                icon={Send}
+                className="enroll__submit"
+              >
                 Reservar mi cupo
               </Button>
 
@@ -247,7 +262,7 @@ function Enroll({ enrollCourse = { id: '', request: 0 } }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Enroll
+export default Enroll;

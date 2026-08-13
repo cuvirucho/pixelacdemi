@@ -1,5 +1,5 @@
-import { Clock, ArrowRight } from 'lucide-react'
-import './CourseCard.css'
+import { Clock, ArrowRight } from "lucide-react";
+import "./CourseCard.css";
 
 /**
  * Tarjeta de curso. Recibe un elemento del catálogo de `src/data/courses.js`.
@@ -10,10 +10,13 @@ import './CourseCard.css'
  * @param {(course: object) => void} onOpen abre la ficha ampliada del curso
  */
 function CourseCard({ course, index = 0, onOpen }) {
-  const { title, description, duration, level, icon: Icon } = course
+  const { title, description, duration, level, icon: Icon } = course;
 
   return (
-    <article className="course-card reveal" style={{ '--reveal-delay': `${index * 90}ms` }}>
+    <article
+      className="course-card reveal"
+      style={{ "--reveal-delay": `${index * 90}ms` }}
+    >
       <header className="course-card__head">
         <span className="course-card__icon" aria-hidden="true">
           <Icon size={22} strokeWidth={1.9} />
@@ -22,7 +25,7 @@ function CourseCard({ course, index = 0, onOpen }) {
           {/* El nivel va junto a la etiqueta y no en el pie: así el pie mide
               siempre lo mismo y los divisores de las 4 tarjetas se alinean */}
           <span className="course-card__labels">
-            <span className="course-card__tag">Curso</span>
+            <span className="course-card__tag">Clase</span>
             <span className="course-card__level">{level}</span>
           </span>
           <h3 className="course-card__title">{title}</h3>
@@ -38,14 +41,18 @@ function CourseCard({ course, index = 0, onOpen }) {
         </span>
       </footer>
 
-      <button type="button" className="course-card__link" onClick={() => onOpen(course)}>
+      <button
+        type="button"
+        className="course-card__link"
+        onClick={() => onOpen(course)}
+      >
         {/* El texto accesible nombra el curso: "Ver curso" a secas se repetiría 4 veces */}
-        <span aria-hidden="true">Ver curso</span>
-        <span className="course-card__sr">Ver el curso {title}</span>
+        <span aria-hidden="true">Ver mas</span>
+        <span className="course-card__sr">Ver mas{title}</span>
         <ArrowRight size={16} aria-hidden="true" />
       </button>
     </article>
-  )
+  );
 }
 
-export default CourseCard
+export default CourseCard;

@@ -1,5 +1,5 @@
-import { useEffect, useId, useRef } from 'react'
-import { createPortal } from 'react-dom'
+import { useEffect, useId, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   X,
   Clock,
@@ -9,14 +9,14 @@ import {
   Check,
   Rocket,
   ArrowRight,
-} from 'lucide-react'
-import Button from './Button'
-import { inclusions } from '../data/benefits'
-import { COURSE_PRICE, COURSE_SEATS, COURSE_START } from '../data/courses'
-import './CourseModal.css'
+} from "lucide-react";
+import Button from "./Button";
+import { inclusions } from "../data/benefits";
+import { COURSE_PRICE, COURSE_SEATS, COURSE_START } from "../data/courses";
+import "./CourseModal.css";
 
 const FOCUSABLE =
-  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 /**
  * Ficha ampliada de un curso. Se monta con `createPortal` en el <body> y no
@@ -28,10 +28,10 @@ const FOCUSABLE =
  * @param {(courseId: string) => void} onEnroll
  */
 function CourseModal({ course, onClose, onEnroll }) {
-  const overlayRef = useRef(null)
-  const dialogRef = useRef(null)
-  const closeRef = useRef(null)
-  const titleId = useId()
+  const overlayRef = useRef(null);
+  const dialogRef = useRef(null);
+  const closeRef = useRef(null);
+  const titleId = useId();
 
   const {
     id,
@@ -47,54 +47,54 @@ function CourseModal({ course, onClose, onEnroll }) {
     tools,
     project,
     icon: Icon,
-  } = course
+  } = course;
 
   // Bloquea el scroll de fondo, cierra con Escape y mantiene el foco dentro del
   // diálogo. El bloqueo replica el del menú móvil (Navbar) para no divergir.
   useEffect(() => {
-    const opener = document.activeElement
+    const opener = document.activeElement;
 
     const onKeyDown = (event) => {
-      if (event.key === 'Escape') {
-        onClose()
-        return
+      if (event.key === "Escape") {
+        onClose();
+        return;
       }
-      if (event.key !== 'Tab') return
+      if (event.key !== "Tab") return;
 
-      const focusables = [...dialogRef.current.querySelectorAll(FOCUSABLE)]
-      if (focusables.length === 0) return
+      const focusables = [...dialogRef.current.querySelectorAll(FOCUSABLE)];
+      if (focusables.length === 0) return;
 
-      const first = focusables[0]
-      const last = focusables[focusables.length - 1]
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
 
       if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault()
-        last.focus()
+        event.preventDefault();
+        last.focus();
       } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault()
-        first.focus()
+        event.preventDefault();
+        first.focus();
       }
-    }
+    };
 
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', onKeyDown)
-    closeRef.current?.focus({ preventScroll: true })
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    closeRef.current?.focus({ preventScroll: true });
 
     return () => {
-      document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
       // Devuelve el foco al botón "Ver curso" que abrió el modal. `preventScroll`
       // es imprescindible: enfocar arrastra la página hasta el elemento, y al
       // cerrar desde "Reservar mi cupo" eso desharía el salto a Inscripción.
-      opener?.focus?.({ preventScroll: true })
-    }
-  }, [onClose])
+      opener?.focus?.({ preventScroll: true });
+    };
+  }, [onClose]);
 
   const handleOverlayClick = (event) => {
     // Solo el fondo cierra: un clic dentro del diálogo no debe propagarse
-    if (event.target === overlayRef.current) onClose()
-  }
+    if (event.target === overlayRef.current) onClose();
+  };
 
   return createPortal(
     <div className="course-modal" ref={overlayRef} onClick={handleOverlayClick}>
@@ -167,17 +167,28 @@ function CourseModal({ course, onClose, onEnroll }) {
             </section>
 
             <section className="course-modal__block">
-              <h3 className="course-modal__block-title">Programa semana a semana</h3>
+              <h3 className="course-modal__block-title">
+                Programa semana a semana
+              </h3>
               <ol className="course-modal__modules">
                 {modules.map((module, index) => (
                   <li key={module.id} className="course-modal__module">
-                    <span className="course-modal__module-step" aria-hidden="true">
+                    <span
+                      className="course-modal__module-step"
+                      aria-hidden="true"
+                    >
                       {index + 1}
                     </span>
                     <div className="course-modal__module-body">
-                      <span className="course-modal__module-week">{module.week}</span>
-                      <h4 className="course-modal__module-title">{module.title}</h4>
-                      <p className="course-modal__module-text">{module.detail}</p>
+                      <span className="course-modal__module-week">
+                        {module.week}
+                      </span>
+                      <h4 className="course-modal__module-title">
+                        {module.title}
+                      </h4>
+                      <p className="course-modal__module-text">
+                        {module.detail}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -189,7 +200,9 @@ function CourseModal({ course, onClose, onEnroll }) {
                 <Rocket size={20} strokeWidth={1.9} />
               </span>
               <div>
-                <h3 className="course-modal__project-title">Tu proyecto final</h3>
+                <h3 className="course-modal__project-title">
+                  Tu proyecto final
+                </h3>
                 <p className="course-modal__project-text">{project}</p>
               </div>
             </section>
@@ -197,12 +210,6 @@ function CourseModal({ course, onClose, onEnroll }) {
 
           <aside className="course-modal__aside">
             <div className="course-modal__price-card">
-              <span className="course-modal__price-label">Inversión única</span>
-              <strong className="course-modal__price">{COURSE_PRICE}</strong>
-              <span className="course-modal__price-note">
-                Sin mensualidades ni cargos ocultos
-              </span>
-
               <Button
                 size="lg"
                 icon={ArrowRight}
@@ -223,19 +230,32 @@ function CourseModal({ course, onClose, onEnroll }) {
             <div className="course-modal__box">
               <h3 className="course-modal__box-title">Incluye</h3>
               <ul className="course-modal__includes">
-                {inclusions.map(({ id: inclusionId, title: name, description, icon: ItemIcon }) => (
-                  <li key={inclusionId}>
-                    <ItemIcon size={17} strokeWidth={1.8} aria-hidden="true" />
-                    <span>
-                      <strong>{name}</strong> {description}
-                    </span>
-                  </li>
-                ))}
+                {inclusions.map(
+                  ({
+                    id: inclusionId,
+                    title: name,
+                    description,
+                    icon: ItemIcon,
+                  }) => (
+                    <li key={inclusionId}>
+                      <ItemIcon
+                        size={17}
+                        strokeWidth={1.8}
+                        aria-hidden="true"
+                      />
+                      <span>
+                        <strong>{name}</strong> {description}
+                      </span>
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
 
             <div className="course-modal__box">
-              <h3 className="course-modal__box-title">Herramientas que dominarás</h3>
+              <h3 className="course-modal__box-title">
+                Herramientas que dominarás
+              </h3>
               <ul className="course-modal__tools">
                 {tools.map((tool) => (
                   <li key={tool}>{tool}</li>
@@ -252,7 +272,7 @@ function CourseModal({ course, onClose, onEnroll }) {
       </div>
     </div>,
     document.body,
-  )
+  );
 }
 
-export default CourseModal
+export default CourseModal;

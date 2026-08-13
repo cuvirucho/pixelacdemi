@@ -85,7 +85,7 @@ export const courses = [
     id: "publicidad",
     title: "Creación de Contenido, Diseño y Producción Audiovisual",
     description: "Crear contenido profesional que genere alcance y ventas.",
-    duration: "4 semanas",
+    duration: "5 dias",
     level: "Intermedio",
     icon: Megaphone,
 
@@ -99,28 +99,28 @@ export const courses = [
     modules: [
       {
         id: "guion",
-        week: "Semana 1",
+        week: "Clase 1",
         title: "Ideas que se detienen a mirar",
         detail:
           "Storytelling aplicado a redes, ganchos de tres segundos y formatos que funcionan en cada plataforma.",
       },
       {
         id: "produccion",
-        week: "Semana 2",
+        week: "Clase 2",
         title: "Producción con el celular",
         detail:
           "Encuadre, iluminación natural, audio limpio y una rutina de grabación para producir por lotes.",
       },
       {
         id: "edicion",
-        week: "Semana 3",
+        week: "Clase 3",
         title: "Edición de video vertical",
         detail:
           "Ritmo, subtítulos, música y transiciones en CapCut: de la toma en bruto al reel publicable.",
       },
       {
         id: "parrilla",
-        week: "Semana 4",
+        week: "Clase 4",
         title: "Diseño y parrilla de contenidos",
         detail:
           "Plantillas reutilizables, coherencia visual del feed y calendario mensual con métricas.",
@@ -140,7 +140,7 @@ export const courses = [
     id: "diseno",
     title: "Inteligencia Artificial Aplicada al Marketing",
     description: "Dominar herramientas de IA para optimizar procesos.",
-    duration: "4 semanas",
+    duration: "5 dias",
     level: "Desde cero",
     icon: PenTool,
 
@@ -153,28 +153,28 @@ export const courses = [
     modules: [
       {
         id: "prompts",
-        week: "Semana 1",
+        week: "Clase 1",
         title: "Hablar bien con la máquina",
         detail:
           "Anatomía de un buen prompt, contexto, rol y ejemplos. Tu primera biblioteca de prompts reutilizables.",
       },
       {
         id: "copy",
-        week: "Semana 2",
+        week: "Clase 2",
         title: "Investigación y copy con IA",
         detail:
           "Ideación, análisis de competencia y redacción de anuncios y correos que no suenan a robot.",
       },
       {
         id: "visual",
-        week: "Semana 3",
+        week: "Clase 3",
         title: "Imagen y video generativos",
         detail:
           "Generación y edición de piezas visuales, avatares y locuciones para producir campañas completas.",
       },
       {
         id: "automatizacion",
-        week: "Semana 4",
+        week: "Clase 4",
         title: "Automatiza lo repetitivo",
         detail:
           "Flujos que conectan tus herramientas: respuestas, informes y publicación en piloto automático.",
@@ -195,7 +195,7 @@ export const courses = [
     title: "Publicidad Digital, Meta Ads y Crecimiento Profesional",
     description:
       "Crear campañas rentables y desarrollar habilidades comerciales.",
-    duration: "4 semanas",
+    duration: "5 dias",
     level: "Avanzado",
     icon: BarChart3,
 
@@ -209,35 +209,35 @@ export const courses = [
     modules: [
       {
         id: "setup",
-        week: "Semana 1",
+        week: "Clase 1",
         title: "Cimientos técnicos",
         detail:
           "Administrador comercial, píxel, eventos y conversiones bien medidos desde el primer día.",
       },
       {
         id: "campanas",
-        week: "Semana 2",
+        week: "Clase 2",
         title: "Estructura de campañas",
         detail:
           "Objetivos, públicos, presupuestos y la arquitectura que permite optimizar sin romper el aprendizaje.",
       },
       {
         id: "creativos",
-        week: "Semana 3",
+        week: "Clase 3",
         title: "Creativos y pruebas A/B",
         detail:
           "Qué anuncio gana y por qué: hipótesis, variantes y lectura honesta de los resultados.",
       },
       {
         id: "negocio",
-        week: "Semana 4",
+        week: "Clase 4",
         title: "Escalar y cobrar por ello",
         detail:
           "Métricas de rentabilidad, informes para clientes, propuestas y tarifas de un freelance de pauta.",
       },
     ],
     outcomes: [
-      "Configurar píxel y eventos para medir ventas de verdad.",
+      "Configurar eventos para medir ventas de verdad.",
       "Lanzar campañas de Meta Ads con estructura y presupuesto correctos.",
       "Leer el rendimiento y decidir cuándo escalar o apagar una campaña.",
       "Presentar resultados y cobrar por gestionar publicidad de terceros.",
