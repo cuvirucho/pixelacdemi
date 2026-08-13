@@ -23,7 +23,7 @@ function About() {
               <Sparkles size={18} strokeWidth={2} />
             </span>
             <span className="about__badge-text">
-              <strong>+6 años</strong>
+              <strong>+4 años</strong>
               formando talento digital
             </span>
           </div>

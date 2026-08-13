@@ -24,42 +24,42 @@ export const courses = [
     title: "Fundamentos del Marketing Digital y Construcción de Marca",
     description:
       "Construir una marca sólida y comprender el ecosistema digital.",
-    duration: "4 semanas",
+    duration: "5 dias",
     level: "Desde cero",
     icon: Target,
 
     tagline:
       "Deja de publicar por publicar: define a quién le hablas y por qué deberían elegirte.",
     summary:
-      "El punto de partida de todo lo demás. Antes de invertir un dólar en publicidad necesitas saber qué vendes, a quién y con qué voz. En cuatro semanas pasas de la intuición a una estrategia escrita, con tu marca definida y un plan de contenidos que puedes ejecutar al día siguiente.",
+      "El punto de partida de todo lo demás. Antes de invertir un dólar en publicidad necesitas saber qué vendes, a quién y con qué voz. En 5 dias pasas de la intuición a una estrategia escrita, con tu marca definida y un plan de contenidos que puedes ejecutar al día siguiente.",
     audience:
       "Emprendedores y profesionales que empiezan desde cero y necesitan ordenar su marca antes de escalar.",
     format: "Clases en vivo + grabadas",
     modules: [
       {
         id: "ecosistema",
-        week: "Semana 1",
+        week: "Clase 1",
         title: "El ecosistema digital hoy",
         detail:
           "Cómo se conectan redes, web y publicidad, y qué papel juega cada canal dentro del embudo de venta.",
       },
       {
         id: "publico",
-        week: "Semana 2",
+        week: "Clase 2",
         title: "Tu cliente ideal, con datos",
         detail:
           "Investigación de mercado, análisis de competencia y construcción de buyer personas que sí existen.",
       },
       {
         id: "marca",
-        week: "Semana 3",
+        week: "Clase 3",
         title: "Identidad y propuesta de valor",
         detail:
           "Posicionamiento, tono de voz y coherencia visual: qué te hace distinto y cómo se ve eso en tu perfil.",
       },
       {
         id: "plan",
-        week: "Semana 4",
+        week: "Clase 4",
         title: "Plan de marketing en una página",
         detail:
           "Objetivos medibles, calendario de contenidos y presupuesto realista para tus primeros 90 días.",
@@ -71,7 +71,13 @@ export const courses = [
       "Construir una identidad de marca coherente en todos tus canales.",
       "Salir con un plan de marketing de 90 días listo para ejecutar.",
     ],
-    tools: ["Canva", "Notion", "Google Trends", "Meta Business Suite", "ChatGPT"],
+    tools: [
+      "Canva",
+      "Notion",
+      "Google Trends",
+      "Meta Business Suite",
+      "ChatGPT",
+    ],
     project:
       "Un manual de marca y un plan de marketing de 90 días para tu negocio o el de tu primer cliente.",
   },
@@ -138,8 +144,7 @@ export const courses = [
     level: "Desde cero",
     icon: PenTool,
 
-    tagline:
-      "Haz en una tarde el trabajo que hoy te ocupa una semana entera.",
+    tagline: "Haz en una tarde el trabajo que hoy te ocupa una semana entera.",
     summary:
       "La IA no reemplaza al marketero: multiplica al que sabe usarla. Este curso te enseña a construir tu propio sistema de trabajo con IA para investigar, escribir, diseñar y automatizar, manteniendo tu criterio y la voz de tu marca. No necesitas saber programar.",
     audience:
