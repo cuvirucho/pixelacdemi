@@ -39,12 +39,21 @@
 
 .benefits__item {
   padding-inline: clamp(0.75rem, 1.5vw, 1.5rem);
-  border-left: 1px solid rgba(124, 44, 255, 0.16);
   text-align: left;
 }
 
-.benefits__item:first-child {
-  border-left: 0;
+/* Los separadores verticales solo tienen sentido donde la lista es realmente
+   horizontal. Por debajo de 641px los items pasan a ser tarjetas con borde
+   propio, y dejarlos aquí impediría que el shorthand `border` se aplicara
+   (`:first-child` y `:nth-child` ganan en especificidad a `.benefits__item`). */
+@media (min-width: 641px) {
+  .benefits__item {
+    border-left: 1px solid rgba(124, 44, 255, 0.16);
+  }
+
+  .benefits__item:first-child {
+    border-left: 0;
+  }
 }
 
 .benefits__icon {
@@ -63,22 +72,21 @@
     box-shadow var(--t-base);
 }
 
-.benefits__item:hover .benefits__icon {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(124, 44, 255, 0.2);
+/* Solo con puntero real: en táctil el :hover se queda pegado tras el toque */
+@media (hover: hover) {
+  .benefits__item:hover .benefits__icon {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(124, 44, 255, 0.2);
+  }
 }
 
+/* Todos los títulos reservan dos líneas: así los subtítulos quedan alineados
+   aunque una etiqueta sea más larga que las demás. Va en `em`, no en `px`, así
+   que sigue valiendo exactamente 2 líneas cuando el título encoge en móvil. */
 .benefits__title {
   font-size: 0.9375rem;
   line-height: 1.35;
-}
-
-/* En horizontal, todos los títulos reservan dos líneas: así los subtítulos
-   quedan alineados aunque una etiqueta sea más larga que las demás */
-@media (min-width: 781px) {
-  .benefits__title {
-    min-height: 2.7em;
-  }
+  min-height: 2.7em;
 }
 
 .benefits__text {
@@ -93,16 +101,12 @@
   .benefits__panel {
     grid-template-columns: minmax(0, 1fr);
   }
-
-  .benefits__list {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
-@media (max-width: 780px) {
+@media (min-width: 641px) and (max-width: 780px) {
   .benefits__list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.75rem 0;
+    gap: 1.75rem 1.25rem;
   }
 
   /* En 2 columnas, la primera de cada fila pierde el separador */
@@ -111,14 +115,58 @@
   }
 }
 
-@media (max-width: 400px) {
+/* Móvil: rejilla 2×2. A este ancho un separador de 1px entre dos columnas de
+   texto estrechas no se lee, así que cada item pasa a ser una tarjeta blanca
+   sobre el panel lavanda. */
+@media (max-width: 640px) {
+  .benefits__panel {
+    padding: clamp(1.5rem, 1rem + 2vw, 2rem) 1.125rem;
+    border-radius: var(--radius-lg);
+  }
+
   .benefits__list {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
   }
 
   .benefits__item {
-    border-left: 0;
-    padding-inline: 0;
+    padding: 1rem 0.875rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background-color: var(--white);
+    box-shadow: var(--shadow-card);
+  }
+
+  /* Sobre tarjeta blanca un icono blanco se pierde: mismo tinte morado que
+     .about__pillar-icon, que ya es el patrón del proyecto */
+  .benefits__icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 0.7rem;
+    border-radius: var(--radius-sm);
+    background-color: rgba(124, 44, 255, 0.1);
+    box-shadow: none;
+  }
+
+  /* El JSX pasa size={26}, algo grande para una caja de 44px */
+  .benefits__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .benefits__title,
+  .benefits__text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Móviles estrechos: se aprieta lo justo para mantener las 2 columnas a 320px */
+@media (max-width: 360px) {
+  .benefits__panel {
+    padding-inline: 0.875rem;
+  }
+
+  .benefits__item {
+    padding: 0.875rem 0.75rem;
   }
 }
