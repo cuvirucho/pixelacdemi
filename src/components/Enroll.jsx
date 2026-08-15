@@ -2,10 +2,17 @@ import { useState } from "react";
 import { CircleCheck, Send, ShieldCheck, Clock, Award } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Button from "./Button";
+import { WhatsAppIcon } from "./BrandIcons";
 import { courses, COURSE_PRICE } from "../data/courses";
+import { WHATSAPP_GROUP_URL } from "../data/navigation";
 import "./Enroll.css";
 
 const TRUST_SIGNALS = [
+  {
+    id: "grupo",
+    text: "Acompañamiento diario en el grupo privado de WhatsApp",
+    icon: WhatsAppIcon,
+  },
   {
     id: "cupos",
     text: "Cupos limitados por grupo para asegurar acompañamiento real",
@@ -75,6 +82,9 @@ function Enroll({ enrollCourse = { id: "", request: 0 } }) {
   const [values, setValues] = useState(EMPTY_FORM);
   const [errors, setErrors] = useState({});
   const [isSent, setIsSent] = useState(false);
+  // El navegador puede bloquear la pestaña del grupo: solo cambia el texto de
+  // la confirmación, porque el botón de respaldo se muestra en ambos casos.
+  const [popupBlocked, setPopupBlocked] = useState(false);
   const [appliedRequest, setAppliedRequest] = useState(enrollCourse.request);
 
   // Ajuste de estado durante el render, no en un efecto: es el patrón que
@@ -113,6 +123,17 @@ function Enroll({ enrollCourse = { id: "", request: 0 } }) {
       return;
     }
 
+    // La pestaña del grupo se abre de forma SÍNCRONA, dentro del mismo gesto de
+    // clic: si se difiere (por ejemplo tras un `await`), el navegador la trata
+    // como pop-up y la bloquea.
+    // Ojo: no se pasa "noopener" como tercer argumento porque entonces
+    // window.open devuelve null aunque la pestaña sí se haya abierto, y la
+    // detección de bloqueo daría siempre un falso positivo. Anular `opener`
+    // a mano es equivalente.
+    const groupTab = window.open(WHATSAPP_GROUP_URL, "_blank");
+    if (groupTab) groupTab.opener = null;
+    setPopupBlocked(!groupTab);
+
     // ─── Punto de conexión con el backend ────────────────────────────────
     // Aquí es donde se envían los datos al CRM, a un email o a una API:
     //   await fetch('/api/inscripciones', {
@@ -120,6 +141,8 @@ function Enroll({ enrollCourse = { id: "", request: 0 } }) {
     //     headers: { 'Content-Type': 'application/json' },
     //     body: JSON.stringify(values),
     //   })
+    // Debe ir DESPUÉS del window.open de arriba, nunca antes: esperar la
+    // respuesta rompe el gesto del usuario y el navegador bloquea la pestaña.
     // Sin backend conectado, se muestra directamente la confirmación.
     // ─────────────────────────────────────────────────────────────────────
     setIsSent(true);
@@ -129,6 +152,7 @@ function Enroll({ enrollCourse = { id: "", request: 0 } }) {
     setValues(EMPTY_FORM);
     setErrors({});
     setIsSent(false);
+    setPopupBlocked(false);
   };
 
   /** Props comunes de accesibilidad para cada control. */
@@ -175,15 +199,38 @@ function Enroll({ enrollCourse = { id: "", request: 0 } }) {
                 <CircleCheck size={38} strokeWidth={1.7} />
               </span>
               <h3 className="enroll__success-title">
-                ¡Gracias, {values.name.split(" ")[0]}!
+                ¡Listo, {values.name.split(" ")[0]}!
               </h3>
               <p className="enroll__success-text">
-                Recibimos tu solicitud. Un asesor de Pixel Academy te escribirá
-                a <strong>{values.email}</strong> en menos de 24 horas.
+                {popupBlocked ? (
+                  <>
+                    Tu navegador bloqueó la pestaña del grupo. Entra desde aquí
+                    para recibir el horario y confirmar tu cupo.
+                  </>
+                ) : (
+                  <>
+                    Abrimos el grupo de WhatsApp en otra pestaña. Si no la ves,
+                    entra desde aquí.
+                  </>
+                )}{" "}
               </p>
-              <Button variant="outline" onClick={resetForm}>
-                Enviar otra solicitud
-              </Button>
+
+              <div className="enroll__success-actions">
+                <Button
+                  href={WHATSAPP_GROUP_URL}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  variant="whatsapp"
+                  size="lg"
+                  icon={WhatsAppIcon}
+                  className="enroll__whatsapp"
+                >
+                  Entrar al grupo de WhatsApp
+                </Button>
+                <Button variant="ghost" onClick={resetForm}>
+                  Enviar otra solicitud
+                </Button>
+              </div>
             </div>
           ) : (
             <form className="enroll__form" onSubmit={handleSubmit} noValidate>
@@ -255,7 +302,8 @@ function Enroll({ enrollCourse = { id: "", request: 0 } }) {
               </Button>
 
               <p className="enroll__note">
-                Sin compromiso. No compartimos tus datos con terceros.
+                Al reservar te abrimos el grupo de WhatsApp del próximo curso.
+                Sin compromiso y no compartimos tus datos con terceros.
               </p>
             </form>
           )}

@@ -93,6 +93,29 @@
   color: var(--primary-dark);
 }
 
+/* Verde de marca de WhatsApp: es intencional que no use el morado del sistema,
+   porque el usuario tiene que reconocer a dónde lo lleva el botón. */
+.btn--whatsapp {
+  background-color: #25d366;
+  color: #04301a;
+  box-shadow: 0 10px 30px rgba(37, 211, 102, 0.32);
+}
+
+.btn--whatsapp:hover {
+  background-color: #1fbe5b;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 38px rgba(37, 211, 102, 0.45);
+}
+
+.btn--whatsapp:active {
+  transform: translateY(0);
+}
+
+/* El desplazamiento lateral está pensado para flechas; el logo se escala */
+.btn--whatsapp:hover .btn__icon {
+  transform: scale(1.08);
+}
+
 /* --------------------------------- Tamaños --------------------------------- */
 
 .btn--lg {

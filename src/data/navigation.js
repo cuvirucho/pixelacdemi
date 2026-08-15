@@ -24,6 +24,10 @@ export const navLinks = [
 /** Ancla a la que apuntan todos los CTA de inscripción. */
 export const ENROLL_HREF = "#inscripcion";
 
+/** Grupo de WhatsApp al que entra el usuario tras reservar su cupo. */
+export const WHATSAPP_GROUP_URL =
+  "https://chat.whatsapp.com/Kg4mbL9d0xJ6IWRUv2CQjb";
+
 export const resourceLinks = [
   { id: "blog", label: "Blog", href: "#inscripcion" },
   { id: "guias", label: "Guías gratuitas", href: "#inscripcion" },

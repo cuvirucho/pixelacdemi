@@ -225,6 +225,27 @@ select.field__control {
   overflow-wrap: anywhere;
 }
 
+.enroll__success-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.enroll__whatsapp {
+  width: 100%;
+}
+
+/* El morado del .btn--ghost queda apagado sobre la tarjeta oscura */
+.enroll__success-actions .btn--ghost {
+  color: var(--text-on-dark-muted);
+}
+
+.enroll__success-actions .btn--ghost:hover {
+  color: var(--white);
+}
+
 /* -------------------------------- Breakpoints -------------------------------- */
 
 @media (max-width: 940px) {
