@@ -78,7 +78,7 @@ export const socialLinks = [
 
 /** Datos de contacto — reemplazables por los reales de la academia. */
 export const contactInfo = [
-  { id: "tel", label: "098 123 4567", href: "tel:+593981234567", icon: Phone },
+  { id: "tel", label: "0987380904", href: "tel:+593987380904", icon: Phone },
   {
     id: "mail",
     label: "info@pixelacademy.com",
