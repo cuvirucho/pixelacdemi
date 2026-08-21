@@ -15,7 +15,6 @@ import heroPerson from '../assets/images/hero-person.png'
 export const images = {
   heroPerson,        // ← antes era null
   ctaStudent: null,
-  aboutTeam: null,
 }
 ```
 
@@ -28,7 +27,9 @@ y recorta la imagen con `object-fit: cover`.
 | ------------ | ------------------ | ---------- | ------------------ | ---------------------------------------- |
 | `heroPerson` | `hero-person.png`  | ~4:5       | 900 × 1125 px      | PNG con fondo transparente (recortado)   |
 | `ctaStudent` | `student.png`      | ~3:4       | 700 × 933 px       | PNG con fondo transparente (recortado)   |
-| `aboutTeam`  | `about-team.jpg`   | ~4:3       | 1000 × 750 px      | JPG, se muestra dentro de un marco       |
+
+Los logos de la sección «Sobre nosotros» no viven aquí: se listan como URLs en
+[`src/data/marcas.js`](../../data/marcas.js) y los pinta `BrandMarquee.jsx`.
 
 ## Recomendaciones
 

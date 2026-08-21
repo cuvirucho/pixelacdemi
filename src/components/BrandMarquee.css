@@ -1,0 +1,197 @@
+.brand-marquee {
+  --marquee-gap: clamp(1.5rem, 1rem + 1.6vw, 2.75rem);
+  /* 40px a 640px de viewport → 52px a 1440px. */
+  --marquee-logo-h: clamp(40px, 1.9rem + 1.5vw, 52px);
+  /* Tope de seguridad para un logo desproporcionadamente ancho. El más ancho
+     del set va a 2,26:1, así que hoy no llega a activarse: está para que un
+     logo futuro no se coma la fila entera. Ojo si se baja de 2,6: al activarse
+     recorta el ancho y con él la altura, y ese logo quedaría más bajo que el
+     resto. */
+  --marquee-logo-max-w: calc(var(--marquee-logo-h) * 2.6);
+  /* En px, no en %: al 10% el degradado medía ~29px en móvil y ~90px en las
+     filas anchas, así que en pantalla pequeña se comía casi todo el recorrido
+     visible del logo. */
+  --marquee-fade: 44px;
+}
+
+.brand-marquee__label {
+  margin-bottom: 1.25rem;
+  font-family: var(--font-head);
+  font-size: var(--fs-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.brand-marquee__rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 1rem + 1vw, 2rem);
+}
+
+/* La fila es la ventana: recorta la pista y difumina los dos extremos para que
+   los logos entren y salgan en lugar de cortarse en seco. */
+.brand-marquee__row {
+  overflow: hidden;
+  /* Holgura vertical: sin ella, `overflow: hidden` recortaría los 2px que el
+     logo se eleva al hacer hover. */
+  padding-block: 4px;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 var(--marquee-fade),
+    #000 calc(100% - var(--marquee-fade)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 var(--marquee-fade),
+    #000 calc(100% - var(--marquee-fade)),
+    transparent
+  );
+}
+
+.brand-marquee__track {
+  display: flex;
+  width: max-content;
+  /* Suelo de ancho. El keyframe desplaza `un grupo + un gap`; si esa distancia
+     se queda corta frente a la ventana, al final de cada vuelta asoma un hueco
+     vacío por la derecha antes del salto (pasaba en las filas de escritorio,
+     con solo 4 logos por fila para una ventana de ~450px). Obligando a la
+     pista a medir dos ventanas, cada grupo cubre la ventana entera. */
+  min-width: calc(200% + var(--marquee-gap));
+  gap: var(--marquee-gap);
+  animation: brandMarqueeScroll var(--marquee-duration, 28s) linear infinite;
+  will-change: transform;
+}
+
+.brand-marquee__row[data-direction='reverse'] .brand-marquee__track {
+  animation-direction: reverse;
+}
+
+/* Fuera del guard de hover: un teclado puede convivir con pantalla táctil. */
+.brand-marquee:focus-within .brand-marquee__track {
+  animation-play-state: paused;
+}
+
+/* Solo con puntero real: en táctil, `:hover` se queda pegado tras el toque y
+   dejaba un logo iluminado y elevado hasta tocar en otro sitio. */
+@media (hover: hover) and (pointer: fine) {
+  .brand-marquee:hover .brand-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .brand-marquee__item:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.brand-marquee__group {
+  display: flex;
+  align-items: center;
+  gap: var(--marquee-gap);
+  /* Reparten a partes iguales el sobrante que deje el `min-width` de la pista.
+     Los dos grupos tienen el mismo contenido, así que acaban midiendo
+     exactamente lo mismo, que es de lo que depende el empalme del bucle. */
+  flex: 1 1 auto;
+}
+
+.brand-marquee__item {
+  display: grid;
+  place-items: center;
+  /* El sobrante se va al ancho de los ítems y no a un `justify-content`: así el
+     hueco entre logos es idéntico dentro del grupo y en la unión entre los dos,
+     que es justo lo que hace que no se note dónde empalma el bucle. */
+  flex: 1 0 auto;
+  opacity: 0.78;
+  transition:
+    opacity var(--t-base),
+    transform var(--t-base);
+}
+
+/* Altura fija + ancho automático: es lo único que funciona con logos de
+   proporciones dispares (de 0,80:1 a 2,26:1 en este set). Una caja de ancho
+   fijo dejaría al logo más estrecho ocupando un tercio de su hueco; con el
+   ancho natural, el `gap` del flex reparte el espacio de forma pareja.
+   La altura va aquí y no en el <li>: como alto de la fila implícita del grid
+   se calcula a partir de esta imagen, un `height: 100%` sería un porcentaje
+   cíclico y el navegador lo descarta (se resuelve como `auto`), dejando a
+   `max-width` mandando sobre el tamaño. */
+.brand-marquee__logo {
+  height: var(--marquee-logo-h);
+  width: auto;
+  max-width: var(--marquee-logo-max-w);
+  object-fit: contain;
+}
+
+/* El ancho total de la pista es `2 grupos + 1 gap`. Restar medio gap al 50%
+   deja el desplazamiento en exactamente `1 grupo + 1 gap`, que es el punto
+   donde el segundo grupo cae justo sobre la posición inicial del primero. */
+@keyframes brandMarqueeScroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - (var(--marquee-gap) / 2)), 0, 0);
+  }
+}
+
+/* -------------------------------- Móvil --------------------------------
+   El punto de corte debe coincidir con MOBILE_QUERY de BrandMarquee.jsx: aquí
+   se agrandan los logos dando por hecho que abajo solo hay una fila. */
+
+@media (max-width: 640px) {
+  .brand-marquee {
+    --marquee-gap: clamp(1.25rem, 5vw, 2rem);
+    --marquee-logo-h: clamp(44px, 12vw, 58px);
+    --marquee-fade: 24px;
+  }
+
+  /* Con una sola fila la pista lleva las 8 marcas: es ~2,5x más larga que una
+     fila de escritorio, así que a 28s pasaría volando. El longhand pisa la
+     duración del shorthand de la regla base sin tocar el custom property, que
+     llega por `style` inline y ganaría a cualquier regla de hoja de estilo. */
+  .brand-marquee__track {
+    animation-duration: calc(var(--marquee-duration, 28s) * 1.6);
+  }
+}
+
+/* --------------------------- Movimiento reducido ---------------------------
+   El reset global de index.css acorta la duración a 0.01ms, lo que aquí no
+   detendría el marquee: lo dejaría congelado en su fotograma final, con la
+   pista desplazada. Hay que anular la animación y volver a una rejilla fija. */
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-marquee__row {
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .brand-marquee__track {
+    animation: none;
+    transform: none;
+    width: 100%;
+    /* Sin esto, el suelo de "dos ventanas" seguiría vigente y la rejilla
+       estática se saldría de la tarjeta. */
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .brand-marquee__group {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .brand-marquee__group--clone {
+    display: none;
+  }
+
+  .brand-marquee__item {
+    opacity: 1;
+  }
+}

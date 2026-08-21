@@ -27,20 +27,16 @@
   z-index: -1;
 }
 
-.about__figure {
-  aspect-ratio: 4 / 3;
+/* Marco claro del carrusel de marcas. Sin `aspect-ratio`: la tarjeta se ajusta
+   a la altura real de las filas de logos. El padding inferior extra deja sitio
+   al badge flotante, que asoma por debajo del borde. */
+.about__marquee {
+  padding: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  padding-bottom: clamp(2.25rem, 1.5rem + 2vw, 3rem);
   border-radius: var(--radius-lg);
-  /* Marco claro: aquí el placeholder va sobre fondo claro, no oscuro */
   background-color: var(--white);
+  border: 1px solid var(--border-light);
   box-shadow: var(--shadow-float);
-}
-
-/* El placeholder ilustrado necesita más contraste sobre fondo claro */
-.about__figure.figure--placeholder {
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(124, 44, 255, 0.16), transparent 62%),
-    linear-gradient(160deg, #12121c, #1c1230);
-  border-color: rgba(124, 44, 255, 0.3);
 }
 
 .about__badge {
@@ -141,6 +137,16 @@
 
   .about__content {
     order: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .about__marquee {
+    /* Menos padding lateral = ventana más ancha = más marcas a la vista. */
+    padding-inline: 1.25rem;
+    /* Hueco real para el badge flotante: el carrusel pasa aquí a una sola fila
+       y la tarjeta se queda tan baja que el badge llegaba a pisar los logos. */
+    padding-bottom: 3.25rem;
   }
 }
 

@@ -21,6 +21,15 @@ function CTA() {
           <span className="cta__glow" aria-hidden="true" />
           <span className="cta__dots" aria-hidden="true" />
 
+          {hasPhoto && (
+            <Figure
+              src={images.ctaStudent}
+              alt="Estudiante de Pixel Academy con su portátil"
+              variant="student"
+              className="cta__figure"
+            />
+          )}
+
           <div className="cta__content">
             <h2 id="cta-title" className="cta__title">
               Invierte en ti, transforma tu futuro

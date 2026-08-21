@@ -1,8 +1,7 @@
 import { Sparkles } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-import Figure from "./Figure";
+import BrandMarquee from "./BrandMarquee";
 import { pillars } from "../data/benefits";
-import { images } from "../data/images";
 import "./About.css";
 
 function About() {
@@ -12,12 +11,7 @@ function About() {
         {/* Composición visual */}
         <div className="about__visual reveal">
           <span className="about__blob" aria-hidden="true" />
-          <Figure
-            src={images.aboutTeam}
-            alt="Equipo docente de Pixel Academy en una sesión de mentoría"
-            variant="team"
-            className="about__figure"
-          />
+          <BrandMarquee className="about__marquee" />
           <div className="about__badge">
             <span className="about__badge-icon" aria-hidden="true">
               <Sparkles size={18} strokeWidth={2} />
